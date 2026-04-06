@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Vagas - Sistema de Vagas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #8b2b78;
+            margin-bottom: 20px;
+        }
+
+        .vaga-card {
+            padding: 15px;
+            margin: 15px 0;
+            background-color: #fafafa;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .vaga-card h3 {
+            margin-top: 0;
+            color: #4DA6FF;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px 5px 0 0;
+            font-size: 14px;
+            color: #fff;
+            background-color: #8b2b78;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF7A00;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Lista de Vagas</h2>
+
+        {% if vagas %}
+            {% for vaga in vagas %}
+                <div class="vaga-card">
+                    <h3>{{ vaga.nome_vaga }}</h3>
+                    <p><strong>Requisitos:</strong> {{ vaga.requisitos }}</p>
+                    <p><strong>Salário:</strong> {{ vaga.get_faixa_salarial_display }}</p>
+                    <p><strong>Escolaridade:</strong> {{ vaga.get_escolaridade_minima_display }}</p>
+                    <p><strong>Número de candidatos:</strong> {{ vaga.total_candidatos }}</p>
+
+                    <a href="{% url 'detalhes_vaga' vaga.id %}" class="btn">Ver candidatos</a>
+                    <a href="{% url 'candidatar' vaga.id %}" class="btn">Candidatar-se</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align:center;">Nenhuma vaga cadastrada.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

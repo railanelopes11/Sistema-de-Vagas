@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Área do Candidato - Sistema de Vagas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #8b2b78;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #8b2b78;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF7A00; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Área do Candidato</h2>
+        <p>Bem-vindo, {{ request.user.email }}</p>
+
+        <a href="/vagas/lista/" class="btn">Ver Vagas</a>
+        <a href="/usuarios/logout/" class="btn">Sair</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Candidatos da Vaga - {{ vaga.nome_vaga }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            color: #555555;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #8b2b78;
+            margin-bottom: 30px;
+        }
+
+        .candidato-card {
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #FFFFFF;
+            border-left: 6px solid #FF7A00; 
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .candidato-card h3 {
+            margin-top: 0;
+            color: #8b2b78;
+        }
+
+        .candidato-card p {
+            margin: 5px 0;
+        }
+
+        .pontos {
+            font-weight: bold;
+            color: #E63946;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #FFFFFF;
+            background-color: #8b2b78;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF7A00;
+        }
+
+        .no-candidatos {
+            text-align: center;
+            color: #555555;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Candidatos para a vaga: {{ vaga.nome_vaga }}</h2>
+
+        {% if ranking %}
+            <ul></ul>
+            {% for item in ranking %}
+                <div class="candidato-card">
+                    <h3>{{ forloop.counter }}. {{ item.candidatura.get_full_name|default:item.candidatura.nome_completo }}</h3>
+                    <p><strong>Email:</strong> {{ item.candidatura.candidato.email }}</p>
+                    <p><strong>Pretensão Salarial:</strong> {{ item.candidatura.pretensao_salarial }}</p>
+                    <p><strong>Experiência:</strong> {{ item.candidatura.experiencia }}</p>
+                    <p><strong>Última Escolaridade:</strong> {{ item.candidatura.get_ultima_escolaridade_display }}</p>
+                    <p class="pontos"><strong>Pontos:</strong> {{ item.pontos }}</p>
+                </div>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-candidatos">Nenhum candidato se inscreveu ainda.</p>
+        {% endif %}
+                
+        <a href="{% url 'listar_vagas' %}" class="btn">← Voltar para lista de vagas</a>
+    </div>
+</body>
+</html>

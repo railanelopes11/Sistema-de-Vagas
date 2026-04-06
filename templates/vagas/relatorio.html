@@ -1,0 +1,45 @@
+{% extends "home.html" %}
+
+{% block content %}
+
+<h2>Relatórios</h2>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<canvas id="graficoVagas"></canvas>
+<canvas id="graficoCandidatos"></canvas>
+
+<script>
+    const vagasData = {{ vagas_por_mes|safe }};
+    const candidatosData = {{ candidatos_por_mes|safe }};
+
+    const meses = vagasData.map(item => item.mes);
+    const vagasTotais = vagasData.map(item => item.total);
+
+    new Chart(document.getElementById("graficoVagas"), {
+        type: 'bar',
+        data: {
+            labels: meses,
+            datasets: [{
+                label: 'Vagas por mês',
+                data: vagasTotais
+            }]
+        }
+    });
+
+    const mesesC = candidatosData.map(item => item.mes);
+    const candidatosTotais = candidatosData.map(item => item.total);
+
+    new Chart(document.getElementById("graficoCandidatos"), {
+        type: 'line',
+        data: {
+            labels: mesesC,
+            datasets: [{
+                label: 'Candidatos por mês',
+                data: candidatosTotais
+            }]
+        }
+    });
+</script>
+
+{% endblock %}

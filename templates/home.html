@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Sistema de Vagas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color:#8b2b78;
+            padding: 15px 20px;
+            color: #fff;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #FF7A00;
+        }
+
+        .user-info {
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #8b2b78;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #a36698;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF7A00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div>
+                <a href="{% url 'listar_vagas' %}">Vagas</a>
+            </div>
+
+            <div>
+                {% if user.is_authenticated %}
+                    <span class="user-info">Logado como: {{ user.email }} ({{ user.tipo_usuario }})</span>
+                    <a class="btn" href="{% url 'logout' %}">Sair</a>
+                {% else %}
+                    <a class="btn" href="{% url 'login' %}">Entrar</a>
+                    <a class="btn" href="{% url 'cadastro' %}">Cadastrar</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            {% block content %}
+            <h1>Bem-vindo ao Sistema de Vagas!</h1>
+            <p>Use a navegação acima para explorar as oportunidades de emprego disponíveis e acesse sua conta para se candidatar!</p>
+            {% endblock %}
+        </div>
+    </main>
+</body>
+</html>
