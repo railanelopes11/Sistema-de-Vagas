@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Cadastro - Sistema de Vagas</title>
-    <style>
-        body {
+</head>
+
+<style>
+   body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
             color: #333;
             margin: 0;
             padding: 0;
+        }
+
+        header {
+            background-color:#8b2b78;
+            padding: 15px 20px;
+            color: #fff;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #FF7A00;
         }
 
         .container {
@@ -46,16 +73,14 @@
             box-sizing: border-box;
         }
 
-        button {
-            margin-top: 20px;
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #a36698;
             color: #fff;
-            background-color:  #8b2b78;
-            border: none;
+            text-decoration: none;
             border-radius: 5px;
-            cursor: pointer;
             transition: background-color 0.3s;
         }
 
@@ -72,47 +97,56 @@
             font-weight: bold;
         }
 
-        .messages p {
-            color: red;
-            margin: 10px 0 0 0;
-        }
-    </style>
-</head>
+    
+</style>
+
 <body>
+     <header>
+        <nav>
+            <div>
+                <a class="btn" href="{% url 'listar_vagas' %}">Vagas</a>
+                <a class="btn" href="{% url 'relatorio' %}">Ver Relatórios</a>
+            </div>
+
+            <div>
+                {% if user.is_authenticated %}
+                    <span class="user-info">Logado como: {{ user.email }} ({{ user.tipo_usuario }})</span>
+                    <a class="btn" href="{% url 'logout' %}">Sair</a>
+                {% else %}
+                    <a class="btn" href="{% url 'login' %}">Entrar</a>
+                    <a class="btn" href="{% url 'cadastro' %}">Cadastrar</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
     <div class="container">
+
         <h2>Cadastro</h2>
 
-        {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <p>{{ message }}</p>
-            {% endfor %}
-        </div>
-        {% endif %}
+    <form method="post">
+        {% csrf_token %}
 
-        <form method="post">
-            {% csrf_token %}
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
 
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" required>
+        <label for="password">Senha:</label>
+        <input type="password" name="password" id="password" required>
 
-            <label for="password">Senha:</label>
-            <input type="password" name="password" id="password" required>
+        <label for="password2">Confirmar Senha:</label>
+        <input type="password" name="password2" id="password2" required>
 
-            <label for="password2">Confirmar Senha:</label>
-            <input type="password" name="password2" id="password2" required>
+        <label for="tipo_usuario">Tipo de usuário:</label>
+        <select name="tipo_usuario" id="tipo_usuario" required>
+            <option value="">Selecione</option>
+            <option value="candidato">Candidato</option>
+            <option value="empresa">Empresa</option>
+        </select>
 
-            <label for="tipo_usuario">Tipo de usuário:</label>
-            <select name="tipo_usuario" id="tipo_usuario" required>
-                <option value="">Selecione</option>
-                <option value="candidato">Candidato</option>
-                <option value="empresa">Empresa</option>
-            </select>
+        <button type="submit" class="btn">Cadastrar</button>
+    </form>
 
-            <button type="submit">Cadastrar</button>
-        </form>
-
-        <a href="/usuarios/login/" class="login-link">Já tem conta? Ir para Login</a>
-    </div>
+    <a href="{% url 'login' %}" class="login-link">Já tem conta? Ir para Login</a>
+</div>
 </body>
-</html>
+</html> 

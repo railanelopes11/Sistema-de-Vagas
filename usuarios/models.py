@@ -13,7 +13,7 @@ class Escolaridade(models.TextChoices):
     POS_MBA_MESTRADO = "pos_mba_mestrado", "Pós/MBA/Mestrado"
     DOUTORADO = "doutorado", "Doutorado"
 
-
+# Responsável por criar usuários e superusuários corretamente
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -35,13 +35,14 @@ class UsuarioManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+# Modelo de usuário personalizado
 class Usuario(AbstractUser):
     email = models.EmailField(unique=True)
     username = None
     tipo_usuario = models.CharField(max_length=20, choices=TipoUsuario.choices)    
 
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = UsuarioManager()

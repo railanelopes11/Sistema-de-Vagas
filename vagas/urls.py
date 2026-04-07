@@ -1,8 +1,8 @@
 from django.urls import path
 from . import views 
 
+# Lista de URLs do app "vagas"
 urlpatterns = [
-    path("", views.index, name="index"),
     path("lista/", views.listar_vagas, name="listar_vagas"),
     path("criar/", views.criar_vaga, name="criar_vaga"),
     path("minhas/", views.minhas_vagas, name="minhas_vagas"),
@@ -10,6 +10,6 @@ urlpatterns = [
     path("deletar/<int:vaga_id>/", views.deletar_vaga, name="deletar_vaga"),
     path("candidatar/<int:vaga_id>/", views.candidatar, name="candidatar"), 
     path ("detalhe_vaga/<int:vaga_id>/", views.detalhes_vaga, name="detalhes_vaga"),
-    path("relatorio/", views.relatorio, name="relatorio"),
+    path("relatorio/", views.relatorios, name="relatorio"),
 ]
 

@@ -12,6 +12,31 @@
             color: #555555;
         }
 
+        header {
+            background-color:#8b2b78;
+            padding: 15px 20px;
+            color: #fff;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #FF7A00;
+        }
+
         .container {
             max-width: 900px;
             margin: 50px auto;
@@ -52,15 +77,12 @@
 
         .btn {
             display: inline-block;
-            padding: 12px 20px;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #FFFFFF;
-            background-color: #8b2b78;
-            border: none;
-            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #a36698;
+            color: #fff;
             text-decoration: none;
-            cursor: pointer;
+            border-radius: 5px;
             transition: background-color 0.3s;
         }
 
@@ -76,6 +98,25 @@
     </style>
 </head>
 <body>
+    <header>
+        <nav>
+            <div>
+                <a class="btn" href="{% url 'listar_vagas' %}">Vagas</a>
+                <a class="btn" href="{% url 'relatorio' %}">Ver Relatórios</a>
+            </div>
+
+            <div>
+                {% if user.is_authenticated %}
+                    <span class="user-info">Logado como: {{ user.email }} ({{ user.tipo_usuario }})</span>
+                    <a class="btn" href="{% url 'logout' %}">Sair</a>
+                {% else %}
+                    <a class="btn" href="{% url 'login' %}">Entrar</a>
+                    <a class="btn" href="{% url 'cadastro' %}">Cadastrar</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
     <div class="container">
         <h2>Candidatos para a vaga: {{ vaga.nome_vaga }}</h2>
 

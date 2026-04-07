@@ -1,14 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout 
 from .models import Usuario 
-from django.contrib import messages 
 from django.contrib.auth.decorators import login_required
 
 
 def home(request):
     return render(request, "home.html")
 
-
+# Função para cadastro de usuários
 def cadastro(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -16,38 +15,34 @@ def cadastro(request):
         tipo_usuario = request.POST.get("tipo_usuario")
 
         if not email or not password or not tipo_usuario:
-            messages.error(request, "Todos os campos são obrigatórios")
             return render(request, "usuarios/cadastro.html")
 
         if Usuario.objects.filter(email=email).exists():
-            messages.error(request, "Email já cadastrado")
             return render(request, "usuarios/cadastro.html")
 
 
         password2 = request.POST.get("password2")
         if password != password2:
-             messages.error(request, "Senhas não coincidem")
              return render(request, "usuarios/cadastro.html")
 
         else:
             user = Usuario.objects.create_user(email=email, password=password, tipo_usuario=tipo_usuario)
-            messages.success(request, "Cadastro realizado com sucesso! Faça login.")
             return redirect("login")
     return render(request, "usuarios/cadastro.html")
 
-
+# Função para dashboard da empresa
 @login_required
 def dashboard_empresa(request):
     if request.user.tipo_usuario != "empresa":
         return redirect("dashboard_candidato")
     return render(request, "usuarios/dashboard_empresa.html")
 
-
+# Função para dashboard do candidato
 @login_required
 def dashboard_candidato(request):
     return render(request, "usuarios/dashboard_candidato.html")
 
-
+# Função para login de usuários
 def login_view(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -64,11 +59,11 @@ def login_view(request):
                 return redirect("dashboard_candidato")
 
         else:
-            messages.error(request, "Email ou senha inválidos")
+            return render(request, "usuarios/login.html", {"error": "Credenciais inválidas."})  
 
     return render(request, "usuarios/login.html")
 
-
+# Função para logout de usuários
 def logout_view(request):
     logout(request)
     return redirect("login")  

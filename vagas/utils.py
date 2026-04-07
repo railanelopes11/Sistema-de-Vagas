@@ -1,6 +1,6 @@
 from .models import Candidatura
 
-
+# Dicionário para mapear níveis de escolaridade a valores numéricos
 NIVEL_ESCOLARIDADE = {
     'ensino_fundamental': 1,
     'ensino_medio': 2,
@@ -28,7 +28,6 @@ def faixa_para_intervalo(faixa):
 def calcular_pontuacao(candidatura, vaga):
     pontos = 0
 
-    
     try:
         salario = float(candidatura.pretensao_salarial.replace(",", "").strip())
     except:
@@ -64,11 +63,6 @@ def rankear_candidatos(vaga):
     ranking.sort(key=lambda x: x["pontos"], reverse=True)
     return ranking
 
-
-
-# Validar se o usuário é o dono da vaga (empresa) para permitir edição/deleção
-def vaga_da_empresa(usuario, vaga):
-    return usuario.is_empresa() and vaga.empresa == usuario.email
 
 
 # Validar se o salário é válido

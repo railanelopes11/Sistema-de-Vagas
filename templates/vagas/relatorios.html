@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatórios - Sistema de Vagas</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #8b2b78;
+            padding: 15px 20px;
+            color: #fff;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #FF7A00;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #8b2b78;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #6A0DAD;
+            margin-bottom: 10px;
+        }
+
+        .chart-container {
+            width: 100%;
+            margin-bottom: 50px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 15px 0;
+            background-color: #a36698;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF7A00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div>
+                <a class="btn" href="{% url 'listar_vagas' %}">Vagas</a>
+                <a class="btn" href="{% url 'relatorio' %}">Ver Relatórios</a>
+            </div>
+
+            <div>
+                {% if user.is_authenticated %}
+                    <span class="user-info">Logado como: {{ user.email }} ({{ user.tipo_usuario }})</span>
+                    <a class="btn" href="{% url 'logout' %}">Sair</a>
+                {% else %}
+                    <a class="btn" href="{% url 'login' %}">Entrar</a>
+                    <a class="btn" href="{% url 'cadastro' %}">Cadastrar</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Relatórios</h1>
+
+        <div class="chart-container">
+            <h2>Vagas criadas por mês</h2>
+            <canvas id="vagasChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h2>Candidaturas recebidas por mês</h2>
+            <canvas id="candidatosChart"></canvas>
+        </div>
+
+        <div>
+                <a class="btn" href="{% url 'home' %}">Voltar para Home</a>
+            </div>
+    </div>
+
+    <script>
+        // --- Vagas ---
+        const ctxVagas = document.getElementById('vagasChart').getContext('2d');
+        new Chart(ctxVagas, {
+            type: 'bar',
+            data: {
+                labels: {{ meses_vagas|safe }},
+                datasets: [{
+                    label: 'Total de Vagas',
+                    data: {{ total_vagas|safe }},
+                    backgroundColor: 'rgba(106,13,173,0.7)',
+                    borderColor: 'rgba(106,13,173,1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: true, scales: { y: { beginAtZero: true } } }
+        });
+
+        // --- Candidaturas ---
+        const ctxCandidatos = document.getElementById('candidatosChart').getContext('2d');
+        new Chart(ctxCandidatos, {
+            type: 'bar',
+            data: {
+                labels: {{ meses_candidatos|safe }},
+                datasets: [{
+                    label: 'Total de Candidaturas',
+                    data: {{ total_candidatos|safe }},
+                    backgroundColor: 'rgba(230,57,70,0.2)',
+                    borderColor: 'rgba(230,57,70,1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: { responsive: true, scales: { y: { beginAtZero: true } } }
+        });
+    </script>
+</body>
+</html>
