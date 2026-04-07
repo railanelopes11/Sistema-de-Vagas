@@ -18,6 +18,18 @@ Sistema de gerenciamento de vagas e candidatos desenvolvido em **Django**.
 
 ---
 
+## Interface 
+![Vagas](assets/vagas.png)
+![Candidatos](assets/candidatos.png)
+![Dashboard Candidato](assets/area_candidato.png)
+![Dashboard Empresa](assets/area_empresa.png)
+![Vagas da empresa](assets/minhas_vagas.png)
+![Gráficos](assets/relatorio.png)
+
+
+--- 
+
+
 ## 🛠 Tecnologias Utilizadas
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
 ![Django](https://img.shields.io/badge/Django-4.x-green?logo=django)
