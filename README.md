@@ -89,7 +89,7 @@ python manage.py migrate
 
 ---
 
-##  7. Criar superusuário (Se acahar necessário)
+##  7. Criar superusuário (Se achar necessário)
 
 Para acessar o painel administrativo do Django:
 
